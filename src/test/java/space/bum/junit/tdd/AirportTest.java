@@ -2,10 +2,15 @@ package space.bum.junit.tdd;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.RepetitionInfo;
 import org.junit.jupiter.api.Test;
 
 import space.bum.junit.tdd.model.BusinessFlight;
@@ -41,6 +46,19 @@ class AirportTest {
             () -> assertEquals(true,
                 economyFlight.removePassenger(passenger)),
             () -> assertEquals(0, economyFlight.getPassengers().size()));
+      }
+
+      @RepeatedTest(5)
+      @DisplayName("보통 승객 기본가 항공편 중복 저장은 실패함")
+      public void testDuplicatedRegularOnEconomy(RepetitionInfo repInfo) {
+        Passenger passenger = new Passenger("최", false);
+        IntStream.range(0, repInfo.getTotalRepetitions())
+            .forEach(i -> economyFlight.addPassenger(passenger));
+        assertAll("일반 승객이 동일 보통 항공편 탑승 1회로 제한됨을 검증",
+            () -> assertEquals(1, economyFlight.getPassengers().size()),
+            () -> assertTrue(economyFlight.getPassengers().contains(passenger)),
+            () -> assertTrue(
+                economyFlight.getPassengers().get(0).getName().equals("최")));
       }
     }
 
@@ -104,21 +122,21 @@ class AirportTest {
       }
     }
   }
-  
+
   @Nested
   @DisplayName("프리미엄 항공편")
   class PremiumFlightTest {
     private Flight premiumFlight;
-    
+
     @BeforeEach
     void setUp() {
       premiumFlight = new PremiumFlight("3");
     }
-    
+
     @Nested
     @DisplayName("일반 승객")
     class NormPassengerOnBusinessTest {
-      
+
       @Test
       @DisplayName("일반 승객 프리미엄 탑승 시험")
       void normOnBusinessTest() {
@@ -130,7 +148,7 @@ class AirportTest {
             () -> assertEquals(0, premiumFlight.getPassengers().size()));
       }
     }
-    
+
     @Nested
     @DisplayName("VIP 승객")
     class VipPassengerOnBusinessTest {
