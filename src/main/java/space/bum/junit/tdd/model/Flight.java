@@ -1,22 +1,22 @@
 package space.bum.junit.tdd.model;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import lombok.Getter;
 
 @Getter
 public abstract class Flight {
   private String id;
-  List<Passenger> passengers = new ArrayList<>();
+  Set<Passenger> passengers = new HashSet<>();
 
   public Flight(String id) {
     super();
     this.id = id;
   }
-  public List<Passenger> getPassengers() {
-    return Collections.unmodifiableList(passengers);
+  public Set<Passenger> getPassengers() {
+    return Collections.unmodifiableSet(passengers);
   }
   public abstract boolean addPassenger(Passenger passenger);
 
