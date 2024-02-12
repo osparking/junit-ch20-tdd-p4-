@@ -8,7 +8,11 @@ public class EconomyFlight extends Flight {
 
   @Override
   public boolean addPassenger(Passenger passenger) {
-    return passengers.add(passenger);
+    if (!passengers.contains(passenger)) {
+      return passengers.add(passenger);
+    } else {
+      return false;
+    }
   }
 
   @Override
