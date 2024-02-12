@@ -141,7 +141,7 @@ class AirportTest {
         assertAll("VIP 승객 프리미엄 항공편 추가&삭제 가능 검증",
             () -> assertEquals(true, premiumFlight.addPassenger(park)),
             () -> assertEquals(1, premiumFlight.getPassengers().size()),
-            () -> assertEquals(false, premiumFlight.removePassenger(park)),
+            () -> assertEquals(true, premiumFlight.removePassenger(park)),
             () -> assertEquals(0, premiumFlight.getPassengers().size()));
       }
     }
