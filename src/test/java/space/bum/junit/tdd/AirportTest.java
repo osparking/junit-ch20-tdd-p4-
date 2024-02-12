@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.ArrayList;
 import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -42,7 +43,8 @@ class AirportTest {
             () -> assertEquals(true, economyFlight.addPassenger(passenger)),
             () -> assertEquals(1, economyFlight.getPassengers().size()),
             () -> assertEquals("최",
-                economyFlight.getPassengers().get(0).getName()),
+                new ArrayList<>(economyFlight.getPassengers()).get(0)
+                    .getName()),
             () -> assertEquals(true,
                 economyFlight.removePassenger(passenger)),
             () -> assertEquals(0, economyFlight.getPassengers().size()));
@@ -57,8 +59,8 @@ class AirportTest {
         assertAll("일반 승객이 동일 보통 항공편 탑승 1회로 제한됨을 검증",
             () -> assertEquals(1, economyFlight.getPassengers().size()),
             () -> assertTrue(economyFlight.getPassengers().contains(passenger)),
-            () -> assertTrue(
-                economyFlight.getPassengers().get(0).getName().equals("최")));
+            () -> assertTrue(new ArrayList<>(economyFlight.getPassengers())
+                .get(0).getName().equals("최")));
       }
     }
 
@@ -74,7 +76,8 @@ class AirportTest {
             () -> assertEquals(true, economyFlight.addPassenger(vip)),
             () -> assertEquals(1, economyFlight.getPassengers().size()),
             () -> assertEquals("박",
-                economyFlight.getPassengers().get(0).getName()),
+                new ArrayList<>(economyFlight.getPassengers()).get(0)
+                    .getName()),
             () -> assertEquals(false, economyFlight.removePassenger(vip)),
             () -> assertEquals(1, economyFlight.getPassengers().size()));
       }
